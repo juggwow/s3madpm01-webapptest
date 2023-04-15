@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped&display=swap');
+
+*{
+    font-family: 'Noto Sans Thai Looped', sans-serif;
+}
+.container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+label{
+    padding: 0.5rem;
+    display: block;
+    font-weight: bold;
+}
+
+select{
+    display: block;
+    margin: 0.5rem;
+    width: 200px;
+    box-shadow: 1px 1px 0.5px #888888;
+}
+
+.filter{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-top: 2px solid #888888;
+}
+
+.card-container{
+    border-top: 2px solid #888888;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: auto;
+    margin-left: 50px;
+    margin-right: 50px;
+    font-size: 0.8rem;
+}
+
+.card{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    flex-wrap: wrap;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 5px;
+
+}
+
+.deleteItem{
+    position: absolute;
+    right: 2%;
+    bottom: 1%;
+}
+
+.deleteItem:hover{
+    cursor: pointer;
+}
+
+.myInput{
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+
+
+
