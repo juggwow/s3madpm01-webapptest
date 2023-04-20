@@ -1,0 +1,90 @@
+
+form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+form input,select{
+    padding: 1rem;
+    margin-top: 1rem;
+    width: 80%;
+    border: 2px solid white;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    background-color: white;
+    transition: 0.4s;
+}
+
+form input[type=submit]{
+    cursor: pointer;
+}
+
+form input:hover,input:focus,select:hover{
+    border: 2px solid rgba(0, 0, 0, 0.4);
+    transition: 0.4s;
+}
+
+
+.container{
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px 1px rgba(219, 219, 219, 0.2);
+    -webkit-box-shadow: 0px 2px 4px 1px rgba(219, 219, 219, 0.2);
+    -moz-box-shadow: 0px 2px 4px 1px rgba(219, 219, 219, 0.2);
+    margin: auto;
+    margin-top: 1rem;
+    position: relative;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.btn{
+    text-align: center;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+    max-width: 200px;
+    transition : 50ms;
+    cursor: pointer;
+
+}
+
+.btn:hover{
+    transition : 50ms;
+    text-shadow: 1px 1px #A1A1A1;
+}
+
+.grid-container {
+    width: 80%;
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 1rem;
+    background-color: white;
+}
+
+.grid-item-left{
+    border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+    padding: 1rem;
+    align-items: left;
+    text-align: left;
+}
+
+.grid-item-right{
+    border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+    padding: 1rem;
+    align-items: right;
+    text-align: right;
+}
+
+.hidden{
+    display: none;
+}
+
+.info > h1{
+    text-align: left;
+}

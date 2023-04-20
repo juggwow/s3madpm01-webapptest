@@ -1,68 +1,98 @@
-import {GoogleLogin} from 'react-google-login';
-import {gapi} from 'gapi-script';
 import { useState,useEffect } from 'react';
+import { useGoogleLogin } from '@react-oauth/google';
 import { doc, getDoc, collection, setDoc,addDoc } from "firebase/firestore";
+import axios from "axios";
 import {db} from './firebase' //เข้าถึง db ในโปรเจ็คที่สร้างไว้
+import './Login.css'
+import { useNavigate } from 'react-router-dom';
+import { Button, Container } from 'reactstrap';
 
-function Loginpage(){
+function Loginpage({setIsRegistor,setIsLogin,user,setUser,setUserdata}){
 
-    const clientid = "625444603857-8o2ak16p0525kbcgb6ff5oq1fjrasfk1.apps.googleusercontent.com"
-    const [user,setUser] = useState("")
-    const [userdata,setUserdata] = useState({})
-    const [isLogin,setIsLogin] = useState(false)
+  let navigate = useNavigate()
 
-    useEffect(()=>{
-        const initClient = () => {
-        gapi.client.init({
-            clientid,
-            scope: ''
-        })
-        }
-        gapi.load("client:auth2", initClient)
-    },[])
+  const options_karnfaifa = ["กฟจ.ยะลา","กฟส.บันนังสตา","กฟส.รามัน","กฟจ.นราธิวาส","กฟส.ระแงะ",
+                            "กฟส.รือเสาะ","กฟส.ตากใบ","กฟจ.ปัตตานี","กฟส.โคกโพธิ์","กฟส.หนองจิก",
+                            "กฟจ.สงขลา","กฟอ.จะนะ","กฟส.นาทวี","กฟส.สิงหนคร","กฟส.สะบ้าย้อย",
+                            "กฟส.เทพา","กฟจ.สตูล","กฟส.ละงู","กฟส.ควนกาหลง","กฟจ.พัทลุง",
+                            "กฟส.ตะโหมด","กฟส.ควนขนุน","กฟส.ปากพะยูน","กฟอ.หาดใหญ","กฟส.รัตภูมิ",
+                            "กฟส.นาหม่อม","กฟอ.สุไหงโกลก","กฟอ.เบตง","กฟอ.สายบุรี","กฟส.มายอ",
+                            "กฟอ.ระโนด","กฟส.สทิงพระ","กฟอ.สะเดา","กฟส.พังลา"];
+  const [show,setShow] = useState("hidden")
 
-    const onSuccess = async (res) => {
-        const useremail = res.profileObj.email
-        setUser(useremail)
-        setIsLogin(true)
-        console.log("success",user)
-    
-      //   //เพิ่ม data ไปยัง firestore
-      //   const dbRef = collection(db, "userofs3madpm01");
-      //   const data = {
-      //     userid: "501855",
-      //     firstname: "พัฒนะ",
-      //     lastname: "ศุภไชยมงคล",
-      //     mobileno: "0883874774",
-      //     karnfaifa: "อื่นๆ"
-      //  };
-      //   await setDoc(doc(dbRef,useremail), data); //doc(collection ของ firestore,ชื่อ document)
-    
-        const docRef = doc(db,"userofs3madpm01",useremail)
+  const [userid,setUserID] = useState("")
+  const [karnfaifa,setKarnfaifa] = useState("")
+  const [firstname,setFirstname] = useState("")
+  const [lastname,setLastname] = useState("")
+  const [mobileno,setMobileno] = useState("")
+  
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try{
+      //ส่ง token เพื่อรับข้อมูล user จาก google
+      const data = await axios.get(
+        'https://www.googleapis.com/oauth2/v3/userinfo',
+        { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } },
+      );
+      const useremail = data.data.email
+      setUser(data.data.email)
+      //หาข้อมูล user ใน firestore
+      const docRef = doc(db,"userofs3madpm01",useremail)
+      
         const docSnap = await getDoc(docRef);
         if(docSnap.exists()){
-          console.log(docSnap.data())
           setUserdata(docSnap.data())
+          setIsLogin(true)
+          navigate("/")
+          setIsRegistor(true)
         }
         else{
-          console.log("No such document!");
+          navigate("/UserInfo")
+          setIsLogin(true)
         }
-    
-    
       }
-    
-    const onFailure = (res) => {
-        console.log("fail",res)
-    }
+      catch(err){
+        console.log(err.message);
+        navigate("/")
+      }
+    },
+    onError: errorResponse => console.log(errorResponse),
+  });
 
-    return(
-        <GoogleLogin clientId={clientid} 
-                      buttonText="เข้าสู่ระบบด้วย Gmail"
-                      onSuccess={onSuccess} 
-                      onFailure={onFailure}
-                      cookiePolicy={'single_host_origin'}
-                      isSignedIn={true}/>
+  const datatoFirestore = async(e)=>{
+    e.preventDefault();
+    //เพิ่ม data ไปยัง firestore
+    const data = {userid, firstname, lastname, mobileno, karnfaifa};
+    const dbRef = collection(db, "userofs3madpm01");
+    await setDoc(doc(dbRef,user), data); //doc(collection ของ firestore,ชื่อ document)
+    setUserdata(data)
+    setIsRegistor(true)
+    setIsLogin(true)
+    setShow("")
+  }
+
+  const googleLogout = ()=>{
+    setUser("")
+    setUserdata({})
+    setIsLogin(false)
+    setIsRegistor(true) 
+    setShow("hidden")
+
+    setUserID("")
+    setKarnfaifa("")
+    setFirstname("")
+    setLastname("")
+    setMobileno("")
+
+  }
+
+  return(
+      <Container style={{height:"400px" ,marginTop:"150px",maxWidth: "400px" }}className="mx-auto shadow p-3 bg-body rounded">
+        <Button color='primary' className='p-3' onClick={() => googleLogin()}>Sign in with Google</Button>
+      </Container>
     )
 }
 
 export default Loginpage;
+
