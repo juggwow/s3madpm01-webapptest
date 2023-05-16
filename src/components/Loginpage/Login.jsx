@@ -5,7 +5,7 @@ import axios from "axios";
 import {db} from './firebase' //เข้าถึง db ในโปรเจ็คที่สร้างไว้
 import './Login.css'
 import { useNavigate } from 'react-router-dom';
-import { Button, Container } from 'reactstrap';
+import { Button, Container, Row } from 'reactstrap';
 
 function Loginpage({setIsRegistor,setIsLogin,user,setUser,setUserdata}){
 
