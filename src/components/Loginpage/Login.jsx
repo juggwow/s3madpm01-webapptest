@@ -53,6 +53,7 @@ function Loginpage({setIsRegistor,setIsLogin,user,setUser,setUserdata}){
         }
       }
       catch(err){
+        console.log("ไม่สามารถเชื่อมต่อกับฐานข้อมูลได้ กรุณาติดต่อ 088-3874774")
         console.log(err.message);
         navigate("/")
       }
@@ -89,7 +90,13 @@ function Loginpage({setIsRegistor,setIsLogin,user,setUser,setUserdata}){
 
   return(
       <Container style={{height:"400px" ,marginTop:"150px",maxWidth: "400px" }}className="mx-auto shadow p-3 bg-body rounded">
+        <Row>
+          <p>เข้าสู่ระบบ</p>
+        </Row>
+        <Row>
         <Button color='primary' className='p-3' onClick={() => googleLogin()}>Sign in with Google</Button>
+        </Row>
+        
       </Container>
     )
 }
