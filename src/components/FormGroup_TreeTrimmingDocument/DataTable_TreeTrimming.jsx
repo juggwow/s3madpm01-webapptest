@@ -58,9 +58,9 @@ const DataTable_TreeTrimming = (props)=>{
           >
             <option value="">ไตรมาส...</option>
             <option value="Q1">Q1</option>
-            <option value="Q1">Q2</option>
-            <option value="Q1">Q3</option>
-            <option value="Q1">Q4</option>
+            <option value="Q2">Q2</option>
+            <option value="Q3">Q3</option>
+            <option value="Q4">Q4</option>
           </Input>
   </InputGroup>
       </Row>
