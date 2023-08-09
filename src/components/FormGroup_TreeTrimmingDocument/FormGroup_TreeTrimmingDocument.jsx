@@ -122,6 +122,7 @@ const FormGroup_TreeTrimmingDocument = ({ user, userdata }) => {
         }) // <--- You can retrieve the returned value here.
         .catch(async (err) => {
           console.log(err)
+          setModal(false)
           window.alert("เกิดข้อผิดพลาด โปรดลองอีกครั้ง หรือโทร 0883874774")
         });
     };
