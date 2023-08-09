@@ -118,6 +118,7 @@ const FormGroup_TreeTrimmingDocument = ({ user, userdata }) => {
         .then(async (e) => {
           console.log(e);
           setModal(false)
+          setReload(!reload)
         }) // <--- You can retrieve the returned value here.
         .catch(async (err) => {
           console.log(err)
