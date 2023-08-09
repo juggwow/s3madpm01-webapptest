@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const TreeTrimmingDataContext = createContext()
+const TreeTrimmingDataContext = createContext();
 
 export default TreeTrimmingDataContext;

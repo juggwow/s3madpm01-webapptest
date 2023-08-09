@@ -92,6 +92,8 @@ const FormGroup_TreeTrimmingDocument = ({ user, userdata }) => {
   };
 
   const sendData = () => {
+    setModal(true)
+    setModaltext("รอสักครู่กำลัง Upload...")
     const fr = new FileReader();
     fr.readAsArrayBuffer(file);
     fr.onload = (f) => {
@@ -113,11 +115,13 @@ const FormGroup_TreeTrimmingDocument = ({ user, userdata }) => {
 
       fetch(`${url}?${qs}`, { method: "POST", body: JSON.stringify(params) })
         .then((res) => res.json())
-        .then((e) => {
+        .then(async (e) => {
           console.log(e);
-          setReload(!reload);
         }) // <--- You can retrieve the returned value here.
-        .catch((err) => console.log(err));
+        .catch(async (err) => {
+          console.log(err)
+          window.alert("เกิดข้อผิดพลาด โปรดลองอีกครั้ง หรือโทร 0883874774")
+        });
     };
 
     console.log(addData);
@@ -128,11 +132,10 @@ const FormGroup_TreeTrimmingDocument = ({ user, userdata }) => {
       <Modal centered size="sm" isOpen={modal}>
         <ModalBody>{modaltext}</ModalBody>
       </Modal>
-      <Container
-        fluid="md"
-        className="mx-auto shadow p-3 my-3 bg-body rounded"
-      >
-        <h5 style={{borderLeft:"2px solid #3B71CA",padding:"1rem"}}>เลือกแผนงานเพื่อลงข้อมูล</h5>
+      <Container fluid="md" className="mx-auto shadow p-3 my-3 bg-body rounded">
+        <h5 style={{ borderLeft: "2px solid #3B71CA", padding: "1rem" }}>
+          เลือกแผนงานเพื่อลงข้อมูล
+        </h5>
 
         {isloading ? undefined : (
           <DataTable_TreeTrimming treetrimmingdata={treetrimmingdata} />
@@ -140,7 +143,9 @@ const FormGroup_TreeTrimmingDocument = ({ user, userdata }) => {
       </Container>
 
       <Container fluid="md" className="mx-auto shadow p-3 my-3 bg-body rounded">
-      <h5 style={{borderLeft:"2px solid #3B71CA",padding:"1rem"}}>แผนงานที่เลือก</h5>
+        <h5 style={{ borderLeft: "2px solid #3B71CA", padding: "1rem" }}>
+          แผนงานที่เลือก
+        </h5>
         <Row lg="4" md="3" sm="2" xs="1">
           {addData.map((val, i) => (
             <Col className="mb-3 p-1" key={i}>
@@ -166,7 +171,8 @@ const FormGroup_TreeTrimmingDocument = ({ user, userdata }) => {
         </Row>
         <InputGroup>
           <Label className="mb-0">วันที่ตรวจรับ</Label>
-          <DatePicker className="mb-3"
+          <DatePicker
+            className="mb-3"
             placeholder="วันที่ตรวจรับ"
             value={checkDate}
             onChange={(val) => setCheckDate(val)}
@@ -174,7 +180,8 @@ const FormGroup_TreeTrimmingDocument = ({ user, userdata }) => {
         </InputGroup>
         <InputGroup>
           <Label className="mb-0">วันที่เบิกจ่าย</Label>
-          <DatePicker className="mb-3"
+          <DatePicker
+            className="mb-3"
             placeholder="วันที่เบิกจ่าย"
             value={disbursementDate}
             onChange={(val) => setDisbursementDate(val)}
@@ -199,5 +206,9 @@ const FormGroup_TreeTrimmingDocument = ({ user, userdata }) => {
     </TreeTrimmingDataContext.Provider>
   );
 };
+
+const delay = ms => new Promise(
+  resolve => setTimeout(resolve, ms)
+);
 
 export default FormGroup_TreeTrimmingDocument;
