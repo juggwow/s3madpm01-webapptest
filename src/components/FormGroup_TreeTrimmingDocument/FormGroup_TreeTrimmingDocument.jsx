@@ -41,12 +41,10 @@ const FormGroup_TreeTrimmingDocument = ({ user, userdata }) => {
   const [file, setFile] = useState();
   const [fileAlert, setFileAlert] = useState(false);
   const handleFileChange = (val) => {
-    if (val.target.files[0].type === "application/pdf") {
+    if (val.target.files[0].type === "application/pdf" && val.target.files[0].size < 10485760) {
       setFile(val.target.files[0]);
       setFileAlert(false);
-      console.log("yes pdf file");
     } else {
-      console.log("fail");
       setFileAlert(true);
     }
   };
@@ -113,7 +111,7 @@ const FormGroup_TreeTrimmingDocument = ({ user, userdata }) => {
         addData,
       };
 
-      fetch(`${url}?${qs}`, { method: "POST", body: JSON.stringify(params),mode: 'no-cors' })
+      fetch(`${url}?${qs}`, { method: "POST", body: JSON.stringify(params) })
         .then((res) => res.json())
         .then(async (e) => {
           console.log(e);
@@ -154,14 +152,6 @@ const FormGroup_TreeTrimmingDocument = ({ user, userdata }) => {
             <Col className="mb-3 p-1" key={i}>
               <Card style={{ borderTop: "2px solid #3B71CA " }} body>
                 <CardTitle>{val.zpm4_name}</CardTitle>
-                <CardText>
-                  <p style={{ margin: "-0.5rem 0rem 0px 0px" }}>
-                    ZPM4: {val.zpm4}
-                  </p>
-                  <p style={{ margin: "0px 0rem 0px 0px " }}>
-                    ค่าจ้าง: {val.budget} บาท
-                  </p>
-                </CardText>
                 <Button
                   style={{ position: "absolute", bottom: "25%", right: "5%" }}
                   close
@@ -195,7 +185,7 @@ const FormGroup_TreeTrimmingDocument = ({ user, userdata }) => {
           <Input type="file" onChange={handleFileChange} />
         </InputGroup>
         <Alert color="danger" isOpen={fileAlert}>
-          This is a primary alert — check it out!
+          ขนาดไฟล์ไม่เกิน 10 MB และต้องเป็นไฟล์ pdf
         </Alert>
         <br />
         {addData.length > 0 && file && checkDate && disbursementDate ? (

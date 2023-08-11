@@ -5,11 +5,25 @@ import TreeTrimmingDataContext from "./TreeTrimmingDataContext";
 import { Input, InputGroupText, InputGroup, Row, Col } from "reactstrap";
 
 const DataTable_TreeTrimming = (props) => {
-  const { addData } = useContext(TreeTrimmingDataContext);
+  const { addData,setAddData } = useContext(TreeTrimmingDataContext);
   const [quarterfilter, setQurterfilter] = useState("");
   const [searchfilter, setSearchfilter] = useState("");
   const treetrimmingdata = props.treetrimmingdata;
   const [records, setRecords] = useState(treetrimmingdata);
+
+  const submitHandle = (id,zpm4_name) => {
+    //event.preventDefault()
+    const addItem = async () => {
+      await setAddData([
+        ...addData,
+        {
+          id,
+          zpm4_name,
+        },
+      ]);
+    };
+    addItem();
+  }
 
   const columns = [
     {
@@ -26,7 +40,7 @@ const DataTable_TreeTrimming = (props) => {
     {
       name: "",
       cell: (row) => (
-        <ModalForm_TreeTrimming id={row.id} zpm4_name={row.zpm4_name} />
+        <button className="btn btn-primary " onClick={()=>submitHandle(row.id,row.zpm4_name)}>เลือก</button>
       ),
       ignoreRowClick: true,
       allowOverflow: true,
