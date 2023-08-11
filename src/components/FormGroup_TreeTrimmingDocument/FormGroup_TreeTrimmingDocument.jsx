@@ -113,7 +113,7 @@ const FormGroup_TreeTrimmingDocument = ({ user, userdata }) => {
         addData,
       };
 
-      fetch(`${url}?${qs}`, { method: "POST", body: JSON.stringify(params) })
+      fetch(`${url}?${qs}`, { method: "POST", body: JSON.stringify(params),mode: 'no-cors' })
         .then((res) => res.json())
         .then(async (e) => {
           console.log(e);
